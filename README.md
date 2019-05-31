@@ -8,7 +8,7 @@
 `npm run dev`
 
 # 小程序图
-![小程序图](doc\static\image\qrcode.jpg)
+![小程序图](doc/static/image/qrcode.jpg)
 
 # 原型设计
 按照（美）罗伯特·清崎 《富爸爸穷爸爸》书中现金流量表，简化而成。
