@@ -1,0 +1,18 @@
+{
+	"description": "A WePY project",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true,
+		"checkInvalidKey": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxfaf3c1d9c84a918e",
+	"projectname": "wepy-app",
+	"miniprogramRoot": "dist/",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {}
+}

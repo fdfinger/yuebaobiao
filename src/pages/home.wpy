@@ -1,0 +1,100 @@
+<template>
+  <view class="page">
+    <form bindsubmit="formSubmit" class="form">
+      <view class="section">
+        <view class="flex-wrp">
+          <view class="flex-item">姓名</view>
+          <view class="flex-item" style="padding-left: 2rem;">
+            <input name="username" type="text" class="input"/>
+          </view>
+        </view>
+      </view>
+      <view class="section">
+        <view class="flex-wrp">
+          <view class="flex-item">性别</view>
+          <view class="flex-item" style="padding-left: 2rem;">
+            <radio-group name="sex" class="radio-group">
+              <label class="radio" wx:for="{{sex}}" wx:key="{{item.value}}">
+                <radio value="{{item.value}}" checked="{{item.checked}}"/>
+                {{item.name}}
+              </label>
+            </radio-group>
+          </view>
+        </view>
+      </view>
+      <view class="section">
+        <view class="flex-wrp">
+          <view class="flex-item">年龄</view>
+          <view class="flex-item" style="padding-left: 2rem;">
+            <input name="age" type="number" class="input"/>
+          </view>
+        </view>
+      </view>
+      <view class="btn-area">
+        <button size="mini" form-type="submit">提交</button>
+      </view>
+    </form>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Home extends wepy.page {
+  config = {
+    navigationBarTitleText: '主页'
+  };
+
+  data = {
+    sex: [{ name: '男', value: 'man' }, { name: '女', value: 'woman' }]
+  };
+
+  formSubmit (e) {
+    wx.showModal({
+      title: '您提交的数据',
+      content: JSON.stringify(e.detail.value),
+      success (res) {
+        if (res.confirm) {
+          wx.showToast({
+            title: '确定成功!',
+            icon: 'success'
+          })
+        } else {
+          wx.showToast({
+            title: '取消成功!',
+            icon: 'cancel'
+          })
+        }
+      }
+    })
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.form {
+  .form-item {
+    height: 1.4rem;
+    .label {
+      display: inline-block;
+      width: 20%;
+      &::after {
+        display: inline-block;
+        width: 80%;
+      }
+    }
+  }
+}
+.flex-wrp{
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0;
+}
+.page {
+  padding: 10px;
+  background-color: #f7f7f7;
+}
+.input {
+  background-color: #FFF;
+  display: inline-block;
+}
+</style>

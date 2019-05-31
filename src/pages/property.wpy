@@ -1,0 +1,66 @@
+<template>
+  <view style="background-color:#ededed;">
+    <view style="padding:20rpx;"><text>资产</text></view>
+    <view style="padding: 50rpx 0;text-align:center;background-color:#fff;font-size:2em;color:green;">
+      {{propertyTotal}} <text style="color:gray;font-size:15px;">元</text>
+    </view>
+    <view style="padding:20rpx;"><text>明细</text></view>
+    <view class="cells">
+      <form bindsubmit="formSubmit" class="cells">
+        <view class="cell" wx:for="{{propertyObject}}" wx:key="{{item.name}}">
+          <view class="label">{{item.title}}</view>
+          <view class="input">
+            <input type="number" name="{{item.name}}" value="{{item.value}}" placeholder="请输入金额"/>
+          </view>
+        </view>
+        <view style="background-color:#ededed;padding-top:140rpx;padding-bottom:20rpx;">
+          <button form-type="submit" type="primary" style="margin:50rpx;">提交</button>
+        </view>
+      </form>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import testMixin from '../mixins/test'
+import { connect } from 'wepy-redux'
+import { UPDATEPROPERTYTOTAL, UPDATEPROPERTYOBJECT } from '../store/types/property'
+
+@connect({
+  propertyTotal (state) {
+    return state.property.propertyTotal
+  },
+  propertyObject (state) {
+    return state.property.propertyObject
+  }
+}, {
+  handleTotal: UPDATEPROPERTYTOTAL,
+  handleObject: UPDATEPROPERTYOBJECT
+})
+
+export default class property extends wepy.page {
+  config = {
+    navigationBarTitleText: '资产'
+  }
+
+  mixins = [testMixin]
+
+  methods = {
+    formSubmit (e) {
+      let sum = Object.keys(e.detail.value)
+        .map(i => Number(e.detail.value[i]))
+        .reduceRight((total, num) => total + num)
+      this.methods.handleTotal(sum)
+      this.methods.handleObject(e.detail.value)
+      wx.showToast({
+        title: '修改成功!'
+      })
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>

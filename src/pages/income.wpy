@@ -1,0 +1,74 @@
+<template>
+  <view style="background-color:#ededed;">
+    <view style="padding:20rpx;"><text>收入</text></view>
+    <view style="padding: 50rpx 0;text-align:center;background-color:#fff;font-size:2em;">
+      {{incomeTotal}} <text style="color:gray;font-size:15px;">元</text>
+    </view>
+    <view style="padding:20rpx;"><text>明细</text></view>
+    <view class="cells">
+      <form bindsubmit="formSubmit" class="cells">
+        <view class="cell" wx:for="{{incomeObject}}" wx:key="{{item.name}}">
+          <view class="label">{{item.title}}</view>
+          <view class="input">
+            <input type="number" name="{{item.name}}" value="{{item.value}}" placeholder="请输入金额"/>
+          </view>
+        </view>
+        <view style="background-color:#ededed;padding-top:280rpx;padding-bottom:20rpx;">
+          <button form-type="submit" type="primary" style="margin:50rpx;">提交</button>
+        </view>
+      </form>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import testMixin from '../mixins/test'
+import { connect } from 'wepy-redux'
+import { UPDATEINCOMETOTAL, UPDATEINCOMEOBJECT } from '../store/types/income'
+
+@connect({
+  incomeTotal (state) {
+    return state.income.incomeTotal
+  },
+  incomeObject (state) {
+    return state.income.incomeObject
+  }
+}, {
+  handleTotal: UPDATEINCOMETOTAL,
+  handleObject: UPDATEINCOMEOBJECT
+})
+
+export default class Income extends wepy.page {
+  config = {
+    navigationBarTitleText: '收入'
+  }
+
+  mixins = [testMixin]
+
+  data = {
+    formData: [
+      {title: '工资', name: 'wage'},
+      {title: '版权', name: 'ownership'},
+      {title: '利息', name: 'impressive'},
+      {title: '其他', name: 'other'}
+    ]
+  }
+
+  methods = {
+    formSubmit (e) {
+      let sum = Object.keys(e.detail.value)
+        .map(i => Number(e.detail.value[i]))
+        .reduceRight((total, num) => total + num)
+      this.methods.handleTotal(sum)
+      this.methods.handleObject(e.detail.value)
+      wx.showToast({
+        title: '修改成功!'
+      })
+    }
+  }
+}
+</script>
+
+<style>
+</style>
