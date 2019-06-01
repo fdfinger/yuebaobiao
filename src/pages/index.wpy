@@ -234,7 +234,7 @@
 
     computed = {
       now () {
-        return (new Date()).getMonth()
+        return (new Date()).getMonth() + 1
       }
     }
 
